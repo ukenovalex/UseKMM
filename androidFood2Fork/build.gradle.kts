@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id(KotlinPlugins.kotlinAndroid)
     kotlin(KotlinPlugins.android)
     kotlin(KotlinPlugins.kapt)
     kotlin(KotlinPlugins.serialization) version Kotlin.version
@@ -7,6 +8,12 @@ plugins {
 
 android {
     compileSdk = 33
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.3.0"
+    }
     defaultConfig {
         applicationId = "ru.ukenov.food2forkkmm.android"
         minSdk = 26
@@ -31,7 +38,8 @@ dependencies {
     implementation(Compose.runtimeLiveData)
     implementation(Compose.ui)
     implementation(Compose.material)
-    implementation(Compose.uiTooling)
+    implementation(Compose.previewTooling)
+    debugImplementation(Compose.uiTooling)
     implementation(Compose.foundation)
     implementation(Compose.compiler)
     implementation(Compose.constraintLayout)
