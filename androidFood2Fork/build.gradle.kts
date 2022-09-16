@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id(KotlinPlugins.kotlinAndroid)
+    id(Plugins.hilt)
     kotlin(KotlinPlugins.android)
     kotlin(KotlinPlugins.kapt)
     kotlin(KotlinPlugins.serialization) version Kotlin.version
@@ -38,6 +39,7 @@ dependencies {
     implementation(Compose.runtimeLiveData)
     implementation(Compose.ui)
     implementation(Compose.material)
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1")
     implementation(Compose.previewTooling)
     debugImplementation(Compose.uiTooling)
     implementation(Compose.foundation)
@@ -45,6 +47,10 @@ dependencies {
     implementation(Compose.constraintLayout)
     implementation(Compose.activity)
     implementation(Compose.navigation)
+
+    implementation(Hilt.hiltAndroid)
+    implementation(Hilt.hiltNavigation)
+    implementation(Hilt.hiltCompiler)
 
     implementation(Kotlinx.datetime)
 
