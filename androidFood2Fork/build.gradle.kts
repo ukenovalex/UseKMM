@@ -2,8 +2,8 @@ plugins {
     id("com.android.application")
     id(KotlinPlugins.kotlinAndroid)
     id(Plugins.hilt)
+    id(KotlinPlugins.kapt)
     kotlin(KotlinPlugins.android)
-    kotlin(KotlinPlugins.kapt)
     kotlin(KotlinPlugins.serialization) version Kotlin.version
 }
 
@@ -14,6 +14,10 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.3.0"
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     defaultConfig {
         applicationId = "ru.ukenov.food2forkkmm.android"
@@ -50,7 +54,7 @@ dependencies {
 
     implementation(Hilt.hiltAndroid)
     implementation(Hilt.hiltNavigation)
-    implementation(Hilt.hiltCompiler)
+    kapt(Hilt.hiltCompiler)
 
     implementation(Kotlinx.datetime)
 

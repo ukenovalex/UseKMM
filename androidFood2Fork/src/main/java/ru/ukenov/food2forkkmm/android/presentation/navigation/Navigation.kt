@@ -1,27 +1,31 @@
 package ru.ukenov.food2forkkmm.android.presentation.navigation
 
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.HiltViewModelFactory
-import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
-import androidx.navigation.activity
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import ru.ukenov.food2forkkmm.android.presentation.recipe_detail.RecipeDetailScreen
 import ru.ukenov.food2forkkmm.android.presentation.recipe_detail.RecipeDetailViewModel
 import ru.ukenov.food2forkkmm.android.presentation.recipe_list.RecipeListScreen
+import ru.ukenov.food2forkkmm.android.presentation.recipe_list.RecipeListViewModel
 
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.RecipeList.route) {
         composable(route = Screen.RecipeList.route) { navBackStackEntry ->
+            val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
+            val owner = navController.getViewModelStoreOwner(navController.graph.id)
+            val viewModel: RecipeListViewModel = viewModel(
+                owner,
+                "RecipeListViewModel",
+                factory
+            )
             RecipeListScreen(onSelectRecipe = { recipeId ->
                 navController.navigate(Screen.RecipeDetail.route + "/$recipeId")
             })
@@ -33,7 +37,16 @@ fun Navigation() {
             }),
         ) { navBackStackEntry ->
             val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
-            val viewModel: RecipeDetailViewModel = viewModel()
+            val owner = navController.getViewModelStoreOwner(navController.graph.id)
+            val viewModel: RecipeDetailViewModel = viewModel(
+                owner,
+                "RecipeDetailViewModel",
+                factory
+            )
+
+            println(viewModel.recipeId)
+            println(navBackStackEntry.arguments)
+
             RecipeDetailScreen(
                 recipeId = viewModel.recipeId.value
             )
